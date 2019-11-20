@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">RnCTestService</string>
+    <string name="timer">Current time</string>
+    <string name="counter">Counter value</string>
+    <string name="on_button">On</string>
+    <string name="off_button">Off</string>
+</resources>

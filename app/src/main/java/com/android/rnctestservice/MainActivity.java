@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String mTime;
     private int mCount;
 
+    public static boolean alive;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnOff.setOnClickListener(this);
 
         if (savedInstanceState != null) {
+            alive = true;
             mCount = Integer.parseInt(mPrefs.getString("counter", ""));
             mTime = mPrefs.getString("timer", "");
         }
@@ -89,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .putExtra(PARAM_TIME, 5);
         switch (v.getId()) {
             case R.id.btnOn:
+                alive = true;
                 Date date = Calendar.getInstance().getTime();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyy   hh:mm:ss");
                 mTime = formatter.format(date);
@@ -97,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnOff:
+                alive = false;
                 stopService(intent);
                 Log.d("logtag", "mCount = " + mCount);
                 Log.d("logtag", "mTime = " + mTime);
@@ -110,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        alive = false;
         stopService(new Intent(MainActivity.this, MyService.class));
         unregisterReceiver(mReceiver);
     }

@@ -12,14 +12,12 @@ import java.util.concurrent.TimeUnit;
 public class MyService extends Service {
 
     private ExecutorService mExecutor;
-    private boolean alive;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d("logtag", "onCreate");
         mExecutor = Executors.newFixedThreadPool(1);
-        alive = true;
     }
 
     @Override
@@ -42,7 +40,6 @@ public class MyService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.d("logtag", "onDestroy");
-        alive = false;
     }
 
     class MyRun implements Runnable {
@@ -57,7 +54,7 @@ public class MyService extends Service {
         public void run() {
             Log.d("logtag", "run");
             try {
-                while (alive ) {
+                while (MainActivity.alive ) {
                     Intent intent = new Intent(MainActivity.BROADCAST_ACTION);
                     intent.putExtra(MainActivity.PARAM_STATUS, MainActivity.STATUS_START);
                     sendBroadcast(intent);
